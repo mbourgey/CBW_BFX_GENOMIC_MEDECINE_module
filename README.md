@@ -254,7 +254,7 @@ We typically use SnpEff but many use Annovar and VEP as well.
 Let's run snpEff
 ```
 java -Xmx8G -jar ${SNPEFF_HOME}/snpEff.jar eff  -v -no-intergenic \
--i vcf -o vcf b37 variants/NA12878.rmdup.realign.hc.filter.vcf >  variants/NA12878.rmdup.realign.hc.filter.snpeff.vcf
+-i vcf -o vcf GRCh37.75 variants/NA12878.rmdup.realign.hc.filter.vcf >  variants/NA12878.rmdup.realign.hc.filter.snpeff.vcf
 ```
 
 
