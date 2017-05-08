@@ -128,15 +128,14 @@ Let's call SNPs in NA12878 using both the original and the improved bam files:
 
 ```
 mkdir -p variants/
-#NA12878.sort.rmdup.realign
-java -Xmx8g -jar $GATK_JAR -T HaplotypeCaller -l INFO -R ${REF}/genome/Homo_sapiens.GRCh37.fa \
--I bam/NA12878/NA12878.bwa.sort.bam  --variant_index_type LINEAR --variant_index_parameter 128000 -dt none \
--o variants/NA12878.hc.vcf -L 1:17704860-18004860
 
 #NA12878.sort.rmdup.realign
-java -Xmx8g -jar $GATK_JAR -T HaplotypeCaller -l INFO -R ${REF}/genome/Homo_sapiens.GRCh37.fa \
--I bam/NA12878/NA12878.bwa.sort.rmdup.realign.bam  --variant_index_type LINEAR --variant_index_parameter 128000 -dt none \
--o variants/NA12878.rmdup.realign.hc.vcf -L 1:17704860-18004860
+java -Xmx8g -jar $GATK_JAR -T HaplotypeCaller -l INFO \
+ -R ${REF}/genome/Homo_sapiens.GRCh37.fa \
+ -I bam/NA12878/NA12878.bwa.sort.rmdup.realign.bam  \
+ --variant_index_type LINEAR \
+ --variant_index_parameter 128000 -dt none \
+ -o variants/NA12878.rmdup.realign.hc.vcf -L 1:17704860-18004860
 ```
 
 `-Xmx8g` instructs java to allow up 2 GB of RAM to be used for GATK.
@@ -184,9 +183,6 @@ The ref vs alt alleles, variant quality (QUAL column) and the per-sample genotyp
 **How many SNPs were found?** [solution](https://github.com/mbourgey/CBW_BFX_GENOMIC_MEDECINE_module3/blob/master/solutions/_vcf3.md)
 
 
-**Did we find the same number of variants using the files before and after duplicate removal and realignment?** [solution](https://github.com/mbourgey/CBW_BFX_GENOMIC_MEDECINE_module3/blob/master/solutions/_vcf4.md)
-
-
 ### Looking for INDELs
 
 INDELs can be found by looking for rows where the reference base column and the alternate base column are different lengths. It's slightly more complicated than that since, you'll also pick up the comma delimited alternate bases.
@@ -217,12 +213,15 @@ To perform more rigorous filtering, another program must be used. In our case, w
 
 ```
 java -Xmx8g -jar $GATK_JAR -T VariantFiltration \
--R ${REF}/genome/Homo_sapiens.GRCh37.fa --variant variants/NA12878.rmdup.realign.hc.vcf -o variants/NA12878.rmdup.realign.hc.filter.vcf --filterExpression "QD < 2.0" \
---filterExpression "FS > 200.0" \
---filterExpression "MQ < 40.0" \
---filterName QDFilter \
---filterName FSFilter \
---filterName MQFilter
+ -R ${REF}/genome/Homo_sapiens.GRCh37.fa \
+ --variant variants/NA12878.rmdup.realign.hc.vcf \
+ -o variants/NA12878.rmdup.realign.hc.filter.vcf \
+ --filterExpression "QD < 2.0" \
+ --filterExpression "FS > 200.0" \
+ --filterExpression "MQ < 40.0" \
+ --filterName QDFilter \
+ --filterName FSFilter \
+ --filterName MQFilter
 ```
 
 
@@ -253,8 +252,11 @@ We typically use SnpEff but many use Annovar and VEP as well.
 
 Let's run snpEff
 ```
-java -Xmx8G -jar ${SNPEFF_HOME}/snpEff.jar eff  -v -no-intergenic \
--i vcf -o vcf GRCh37.75 variants/NA12878.rmdup.realign.hc.filter.vcf >  variants/NA12878.rmdup.realign.hc.filter.snpeff.vcf
+java -Xmx8G -jar ${SNPEFF_HOME}/snpEff.jar eff  \
+ -v -no-intergenic \
+ -i vcf -o vcf \
+ GRCh37.75 variants/NA12878.rmdup.realign.hc.filter.vcf \
+ >  variants/NA12878.rmdup.realign.hc.filter.snpeff.vcf
 ```
 
 
@@ -340,9 +342,12 @@ The third column in the vcf file is reserved for identifiers. Perhaps the most c
 Use the following command to generate dbSNP rsIDs for our vcf file: 
 
 ```
-java -Xmx8g -jar $GATK_JAR -T VariantAnnotator -R ${REF}/genome/Homo_sapiens.GRCh37.fa \
---dbsnp $REF/annotations/Homo_sapiens.GRCh37.dbSNP142.vcf.gz --variant variants/NA12878.rmdup.realign.hc.filter.snpeff.vcf \
--o variants/NA12878.rmdup.realign.hc.filter.snpeff.dbsnp.vcf -L 1:17704860-18004860
+java -Xmx8g -jar $GATK_JAR -T VariantAnnotator \
+ -R ${REF}/genome/Homo_sapiens.GRCh37.fa \
+ --dbsnp $REF/annotations/Homo_sapiens.GRCh37.dbSNP142.vcf.gz \
+ --variant variants/NA12878.rmdup.realign.hc.filter.snpeff.vcf \
+ -o variants/NA12878.rmdup.realign.hc.filter.snpeff.dbsnp.vcf \
+ -L 1:17704860-18004860
 ```
 
 
