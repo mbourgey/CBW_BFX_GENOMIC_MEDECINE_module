@@ -1,10 +1,10 @@
 ---
 layout: tutorial_page
 permalink: /Bioinformatics-for-genomics-medecine_2017_module3_lab
-title: BFX-Genomics-medecine Lab 3
+title: BFX-Genomics-medicine Lab 3
 header1: Workshop Pages for Students
-header2: Bioinformatics for Genomics Medecine Module 3 Lab
-image: /site_images/CBW-CSHL-graphic-square.png
+header2: Bioinformatics for Genomics Medicine Module 3 Lab
+image: /site_images/CBW_population_icon.jpg
 home: https://bioinformaticsdotca.github.io/
 ---
 
@@ -14,7 +14,7 @@ home: https://bioinformaticsdotca.github.io/
 
 -----------------------
 
-# CBW  BFX-Genomics-medecin Module 3 - Single Nuclite Variant Calling   
+# CBW  BFX-Genomics-medicine Module 3 - Single Nucleotide Variant Calling   
 
  
 by Mathieu Bourgey, _Ph.D_
