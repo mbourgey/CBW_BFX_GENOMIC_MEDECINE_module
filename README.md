@@ -32,7 +32,7 @@ The goal of this practical session is to identify single nucleotide variants (SN
 
 NA12878 is the child of the trio while NA12891 and NA12892 are her parents.
 
-![Pedigree](https://github.com/mbourgey/CBW_BFX_GENOMIC_MEDECINE_module3/blob/master/img/Pedigree.png) 
+<img src="https://github.com/mbourgey/CBW_BFX_GENOMIC_MEDECINE_module3/blob/master/img/Pedigree.png?raw=true" alt="Pedigree" width="750" />   
 
 
 For practical reasons we subsampled the reads from the sample because running the whole dataset would take way too much time and resources.
